@@ -1,0 +1,84 @@
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+public class ArrayLIst {
+    public static void main(String[] args) {
+        // создаем объекты класса Student
+        Student st1 = new Student("Ivan", 'm', 22, 3, 7);
+        Student st2 = new Student("Vasya", 'm', 21, 1, 5.4);
+        Student st3 = new Student("Liza", 'f', 19, 2, 7.2);
+        Student st4 = new Student("Maxim", 'm', 20, 4, 2.3);
+        Student st5 = new Student("Valeriya", 'f', 19, 2, 8.6);
+        Student st6 = new Student("Vadim", 'm', 22, 4, 9.1);
+
+        ArrayList<Student> studentList = new ArrayList<>(30);
+        //add по объекту
+        studentList.add(st1);
+        studentList.add(st2);
+        studentList.add(st3);
+        studentList.add(st4);
+        studentList.add(st5);
+        //add по индексу
+        studentList.add(1, st6);
+
+        Student st7 = new Student("Vadim", 'm', 22, 4, 9.1);
+        //remove по объекту
+        //чтобы удалялся не только сам объект, но и его дубликаты в других ячейках памяти, сделаем Override метода equals
+        //по дефолту он сравнивает объекты по месту в памяти
+        studentList.remove(st7);
+        studentList.remove(3);
+
+        System.out.println("Массив: \n" + studentList);
+
+        // присутствует ли элемент в массиве
+        System.out.println("Элемент st2 присутствует в массиве? " + studentList.contains(st2) + '\n');
+        // размер массива
+        System.out.println("Размер массива: " + studentList.size() + " элементов" + "\n");
+        //получение элемента по индексу
+        System.out.println("Первый элемент массива: " + studentList.get(0));
+        //Очищаем массив и проверяем пустой ли он
+        studentList.clear();
+        System.out.println("Массив пустой? " + studentList.isEmpty() + "\n");
+
+    }
+}
+class Student {
+    private String name;
+    private char sex;
+    private int age;
+    private int course;
+    private double avgGrade;
+
+    public Student(String name, char sex, int age, int course, double avgGrade) {
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.course = course;
+        this.avgGrade = avgGrade;
+    }
+
+    //перепишем toString для красивого вывода
+    @Override
+    public String toString() {
+        return "Student(" +
+                "name='" + name + '\'' +
+                ", sex=" + sex +
+                ", age=" + age +
+                ", course=" + course +
+                ", avgGrade=" + avgGrade +
+                ")" + "\n";
+    }
+    //переписываем метод equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return sex == student.sex &&
+                age == student.age &&
+                course == student.course &&
+                Double.compare(student.avgGrade, avgGrade) == 0 &&
+                Objects.equals(name, student.name);
+    }
+}
